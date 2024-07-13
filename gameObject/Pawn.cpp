@@ -5,15 +5,52 @@ Pawn::Pawn(Color color, Position pos) : Piece(color, pos) {}
 
 Pawn::~Pawn() {}
 
-std::vector<Position> Pawn::get_possible_moves() const {
+void Pawn::get_moves_in_direction(std::vector<Position>& moves, const std::vector<Piece*>& pieces, int dx, int dy) const {
+    Position pos = position;
+    pos.first += dx;
+    pos.second += dy;
+
+    std::vector<Position> tmp = {
+        Position(pos.first - 1,pos.second), 
+        Position(pos.first + 1,pos.second)
+    };
+
+    for(Position pos : tmp) {
+        for(Piece* piece: pieces) {
+            if (piece->isInPosition(pos) && piece->getColor() != color) {
+                moves.push_back(pos);
+                break;
+            }
+        }
+    }
+
+    for (int i = 0; i < 2; i++) {
+        if (pos.first >= 0 && pos.first < 8 && pos.second >= 0 && pos.second < 8) {
+            for (const Piece* piece : pieces) {
+                if (piece->isInPosition(pos)) {
+                    break;
+                }
+            }
+            moves.push_back(pos);
+
+            if (nb_moves != 0) break;
+
+            pos.first += dx;
+            pos.second += dy;
+        }
+    }
+};
+
+
+std::vector<Position> Pawn::get_possible_moves(std::vector<Piece*> pieces) const {
     std::vector<Position> moves;
 
     if (color == Color::White) {
-        moves.push_back({position.first, position.second - 1});
-    } else if (color == Color::Black) {
-        moves.push_back({position.first, position.second + 1});
+        get_moves_in_direction(moves, pieces, 0, -1);
+    } else {
+        get_moves_in_direction(moves, pieces, 0, 1);
     }
-
+    
     return moves;
 }
 

@@ -3,8 +3,10 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 
-#include "./game/Board.h"
+#include "./gameEngine/Game.h"
 #include "./gameObject/Piece.h"
+
+#define SIZE 640
 
 int main() {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -12,7 +14,7 @@ int main() {
         return 1;
     }
 
-    SDL_Window* win = SDL_CreateWindow("Chess Board", 100, 100, 640, 640, SDL_WINDOW_SHOWN);
+    SDL_Window* win = SDL_CreateWindow("Chess Board", 100, 100, SIZE, SIZE, SDL_WINDOW_SHOWN);
     if (win == nullptr) {
         printf("SDL_CreateWindow Error: %s\n", SDL_GetError());
         SDL_Quit();
@@ -27,22 +29,46 @@ int main() {
         return 1;
     }
 
-    Board board;
-    board.init_board();
-
-    bool quit = false;
+    bool running = true;
+    int cellsize = SIZE/8;
     SDL_Event event;
-    while (!quit) {
+
+    Game game;
+
+    while (running) {
         while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) {
-                quit = true;
+            switch (event.type) {
+                case SDL_QUIT:
+                    running = false;
+                    break;
+                case SDL_KEYDOWN:
+                    if (event.key.keysym.sym == SDLK_ESCAPE) {
+                        running = false;
+                    }
+                    break;
+                case SDL_MOUSEBUTTONDOWN:
+                    if (event.button.button == SDL_BUTTON_LEFT) {
+                        int mouseX, mouseY;
+                        SDL_GetMouseState(&mouseX, &mouseY);
+
+                        Position pos = Position(mouseX/cellsize, mouseY/cellsize);
+                        if (!game.move(pos)) {
+                            game.get_possible_moves(Position(mouseX/cellsize, mouseY/cellsize));
+                        }
+                    }
+                    break;
+                default:
+                    break;
             }
         }
 
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
         SDL_RenderClear(renderer);
- 
-        board.draw(renderer);
+    
+        game.draw_board(renderer, cellsize);
+        game.draw_selected_piece(renderer, cellsize);
+        game.draw_moves(renderer, cellsize);
+        game.draw_pieces(renderer, cellsize);
 
         SDL_RenderPresent(renderer);
     }

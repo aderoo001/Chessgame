@@ -4,6 +4,7 @@
 #include <utility>
 #include <vector>
 #include <string>
+#include <algorithm>
 
 #include "../gameObject/Piece.h"
 #include "../gameObject/Pawn.h"
@@ -25,14 +26,16 @@ class Board {
         ~Board();
 
         void init_board();
+        
         void display() const;
-        void draw(SDL_Renderer* renderer) const;
+        void draw(SDL_Renderer* renderer, int cellsize) const;
+        void draw_pieces(SDL_Renderer* renderer, int cellsize) const;
 
-        void add_piece(Piece* piece) {
-            pieces.push_back(
-                piece
-            );
-        }
+        Piece* get_piece(Position pos);
+        void add_piece(Piece* piece);
+        void delete_piece(Piece* piece);
+
+        std::vector<Position> get_possible_moves(Piece* piece);
 };
 
 #endif

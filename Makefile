@@ -2,8 +2,8 @@ CXX = g++
 CXXFLAGS = -Wall -g `sdl2-config --cflags`
 LDFLAGS = `sdl2-config --libs` -lSDL2_image
 INCLUDES = -Igame -IgameObject -IgameEngine
-TARGET = try01
-SOURCES = main.cpp gameEngine/Board.cpp gameObject/Piece.cpp gameObject/Pawn.cpp gameObject/Knight.cpp gameObject/Queen.cpp gameObject/King.cpp gameObject/Bishop.cpp gameObject/Rook.cpp
+TARGET = Chessgame
+SOURCES = main.cpp gameEngine/Board.cpp gameEngine/Game.cpp gameObject/Piece.cpp gameObject/Pawn.cpp gameObject/Knight.cpp gameObject/Queen.cpp gameObject/King.cpp gameObject/Bishop.cpp gameObject/Rook.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 
 all: $(TARGET)
@@ -16,6 +16,7 @@ $(TARGET): $(OBJECTS)
 
 main.o: gameEngine/Board.h gameObject/Piece.h
 gameEngine/Board.o: gameEngine/Board.h gameObject/Piece.h
+gameEngine/Board.o: gameEngine/Game.h gameObject/Piece.h
 gameObject/Piece.o: gameObject/Piece.h
 gameObject/Pawn.o: gameObject/Pawn.h gameObject/Piece.h
 gameObject/Knight.o: gameObject/Knight.h gameObject/Piece.h

@@ -11,15 +11,15 @@ Board::~Board() {
 }
 
 void Board::init_board() {
-    std::pair<PieceType, Color> board[dimension.first][dimension.second] = {
-        {{PieceType::Rook, Color::Black}, {PieceType::Knight, Color::Black}, {PieceType::Bishop, Color::Black}, {PieceType::King, Color::Black}, {PieceType::Queen, Color::Black}, {PieceType::Bishop, Color::Black}, {PieceType::Knight, Color::Black}, {PieceType::Rook, Color::Black}},
-        {{PieceType::Pawn, Color::Black}, {PieceType::Pawn, Color::Black}, {PieceType::Pawn, Color::Black}, {PieceType::Pawn, Color::Black}, {PieceType::Pawn, Color::Black}, {PieceType::Pawn, Color::Black}, {PieceType::Pawn, Color::Black}, {PieceType::Pawn, Color::Black}},
-        {{PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}},
-        {{PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}},
-        {{PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}},
-        {{PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}},
-        {{PieceType::Pawn, Color::White}, {PieceType::Pawn, Color::White}, {PieceType::Pawn, Color::White}, {PieceType::Pawn, Color::White}, {PieceType::Pawn, Color::White}, {PieceType::Pawn, Color::White}, {PieceType::Pawn, Color::White}, {PieceType::Pawn, Color::White}},
-        {{PieceType::Rook, Color::White}, {PieceType::Knight, Color::White}, {PieceType::Bishop, Color::White}, {PieceType::King, Color::White}, {PieceType::Queen, Color::White}, {PieceType::Bishop, Color::White}, {PieceType::Knight, Color::White}, {PieceType::Rook, Color::White}}
+    std::pair<PieceType, Color> board[8][8] = {
+        {{PieceType::Rook, Color::Black}, {PieceType::Pawn, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::Pawn, Color::White}, {PieceType::Rook, Color::White}},
+        {{PieceType::Knight, Color::Black}, {PieceType::Pawn, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::Pawn, Color::White}, {PieceType::Knight, Color::White}},
+        {{PieceType::Bishop, Color::Black}, {PieceType::Pawn, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::Pawn, Color::White}, {PieceType::Bishop, Color::White}},
+        {{PieceType::Queen, Color::Black}, {PieceType::Pawn, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::Pawn, Color::White}, {PieceType::Queen, Color::White}},
+        {{PieceType::King, Color::Black}, {PieceType::Pawn, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::Pawn, Color::White}, {PieceType::King, Color::White}},
+        {{PieceType::Bishop, Color::Black}, {PieceType::Pawn, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::Pawn, Color::White}, {PieceType::Bishop, Color::White}},
+        {{PieceType::Knight, Color::Black}, {PieceType::Pawn, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::Pawn, Color::White}, {PieceType::Knight, Color::White}},
+        {{PieceType::Rook, Color::Black}, {PieceType::Pawn, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::None, Color::Black}, {PieceType::Pawn, Color::White}, {PieceType::Rook, Color::White}}
     };
 
     for (int i = 0; i < dimension.first; i++) {
@@ -79,12 +79,10 @@ void Board::display() const {
     }
 }
 
-void Board::draw(SDL_Renderer* renderer) const {
-    int cellSize = 80;
-
+void Board::draw(SDL_Renderer* renderer, int cellsize) const {
     for (int i = 0; i < dimension.first; ++i) {
         for (int j = 0; j < dimension.second; ++j) {
-            SDL_Rect cellRect = { j * cellSize, i * cellSize, cellSize, cellSize };
+            SDL_Rect cellRect = { j * cellsize, i * cellsize, cellsize, cellsize };
             if ((i + j) % 2 == 0) {
                 SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // White color for light squares
             } else {
@@ -95,6 +93,41 @@ void Board::draw(SDL_Renderer* renderer) const {
     }
 
     for (const auto& piece : pieces) {
-        piece->draw(renderer, cellSize);
+        piece->draw(renderer, cellsize);
     }
+}
+
+void Board::draw_pieces(SDL_Renderer* renderer, int cellsize) const {
+    for (const auto& piece : pieces) {
+        piece->draw(renderer, cellsize);
+    }
+}
+
+
+Piece* Board::get_piece(Position pos) {
+    for (Piece* piece: pieces) {
+        if (piece->isInPosition(pos)) return piece;
+    } 
+    return nullptr;
+}
+
+void Board::add_piece(Piece* piece) {
+    pieces.push_back(
+        piece
+    );
+}
+
+void Board::delete_piece(Piece* piece) {
+    std::vector<Piece*>::iterator iter = std::find(pieces.begin(), pieces.end(), piece);
+
+    if (iter != pieces.end()) {
+        delete *iter;
+        pieces.erase(iter);
+    }
+}
+
+std::vector<Position> Board::get_possible_moves(Piece* piece) {
+    std::vector<Position> ret;
+    ret = piece->get_possible_moves(pieces);
+    return ret;
 }

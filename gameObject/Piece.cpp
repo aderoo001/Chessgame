@@ -4,23 +4,33 @@ Piece::Piece(Color color, Position position): color{color}, position{position} {
 
 Piece::~Piece() {}
 
-std::vector<Position> Piece::get_possible_moves() const {
-    std::vector<Position> res;
+void Piece::get_moves_in_direction(std::vector<Position>& moves, const std::vector<Piece*>& pieces, int dx, int dy) const {
+    Position pos = position;
+    pos.first += dx;
+    pos.second += dy;
 
-    switch (color)
-    {
-    case Color::White :
-        res.push_back(std::make_pair(position.first, position.second + 1));
-        break;
-    default:
-        res.push_back(std::make_pair(position.first, position.second - 1));
-        break;
+    if (pos.first >= 0 && pos.first < 8 && pos.second >= 0 && pos.second < 8) {
+        for (const Piece* piece : pieces) {
+            if (piece->isInPosition(pos)) {
+                return;
+            }
+        }
+        moves.push_back(pos);
     }
+};
 
-    return res;
+std::vector<Position> Piece::get_possible_moves(std::vector<Piece *> pieces) const {
+    std::vector<Position> moves;
+
+    get_moves_in_direction(moves, pieces, 0, -1);
+    get_moves_in_direction(moves, pieces, 0, 1);
+    get_moves_in_direction(moves, pieces, -1, 0);
+    get_moves_in_direction(moves, pieces, 1, 0);
+
+    return moves;
 }
 
-void Piece::move(Position next) { position = next; };
+void Piece::move(Position next) { position = next; nb_moves++; };
 
 std::string Piece::display() const { 
     std::string ret = "O";

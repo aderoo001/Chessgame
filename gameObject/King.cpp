@@ -4,8 +4,30 @@ King::King(Color color, Position pos) : Piece(color, pos) {}
 
 King::~King() {}
 
-std::vector<Position> King::get_possible_moves() const {
+void King::get_moves_in_direction(std::vector<Position>& moves, const std::vector<Piece*>& pieces, int dx, int dy) const {
+    Position pos = position;
+    pos.first += dx;
+    pos.second += dy;
+
+    if (pos.first >= 0 && pos.first < 8 && pos.second >= 0 && pos.second < 8) {
+        for (const Piece* piece : pieces) {
+            if (piece->isInPosition(pos)) {
+                if (piece->getColor() != color) moves.push_back(pos);
+                return;
+            }
+        }
+        moves.push_back(pos);
+    }
+};
+
+std::vector<Position> King::get_possible_moves(std::vector<Piece*> pieces) const {
     std::vector<Position> moves;
+
+    get_moves_in_direction(moves, pieces, 0, -1);
+    get_moves_in_direction(moves, pieces, 0, +1);
+    get_moves_in_direction(moves, pieces, -1, 0);
+    get_moves_in_direction(moves, pieces, +1, 0);
+    
     return moves;
 }
 
