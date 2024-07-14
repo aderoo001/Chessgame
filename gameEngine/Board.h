@@ -31,11 +31,12 @@ class Board {
         void draw(SDL_Renderer* renderer, int cellsize) const;
         void draw_pieces(SDL_Renderer* renderer, int cellsize) const;
 
-        Piece* get_piece(Position pos);
+        Piece* get_piece(Position pos) const;
+        void get_pieces_by_type(std::vector<Piece *> &pieces, PieceType type) const;
         void add_piece(Piece* piece);
         void delete_piece(Piece* piece);
 
-        std::vector<Position> get_possible_moves(Piece* piece);
+        std::vector<Position> get_possible_moves(Piece* piece) const;
 };
 
 #endif

@@ -6,7 +6,6 @@
 class Knight : public Piece
 {
     private:
-        PieceType type = PieceType::Knight;
         
     public:
         Knight(Color color, Position position);

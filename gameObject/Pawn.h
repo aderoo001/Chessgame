@@ -5,7 +5,6 @@
 
 class Pawn : public Piece {
     private:
-        PieceType type = PieceType::Pawn;
         
     public:
         Pawn(Color color, Position pos);

@@ -6,7 +6,6 @@
 class Rook : public Piece
 {
     private:
-        PieceType type = PieceType::Rook;
         
     public:
         Rook(Color color, Position position);

@@ -5,7 +5,6 @@
 
 class Bishop : public Piece{
     private:
-        PieceType type = PieceType::Bishop;
 
     public:
         Bishop(Color color, Position position);

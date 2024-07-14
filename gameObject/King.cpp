@@ -1,6 +1,6 @@
 #include <King.h>
 
-King::King(Color color, Position pos) : Piece(color, pos) {}
+King::King(Color color, Position pos) : Piece(color, pos, PieceType::King) {}
 
 King::~King() {}
 

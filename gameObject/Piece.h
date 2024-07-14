@@ -12,6 +12,7 @@
 typedef std::pair<int, int> Position;
 
 enum class Color {
+    None,
     White,
     Black
 };
@@ -30,17 +31,19 @@ enum class PieceType {
 
 class Piece {
     protected:
-        const PieceType type = PieceType::Undefined;
         const Color color;
         Position position;
+        const PieceType type;
         int nb_moves = 0;
     
     public:
         Piece(Color color, Position pos);
+        Piece(Color color, Position pos, PieceType type);
         virtual ~Piece();
 
         Position getPosition() const { return position; }
         bool isInPosition(Position pos) const { return position == pos; }
+        bool isPieceType(PieceType p_type) const { return type == p_type; }
         Color getColor() const { return color; }
         
         virtual void get_moves_in_direction(std::vector<Position>& moves, const std::vector<Piece*>& pieces, int dx, int dy) const;

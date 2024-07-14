@@ -6,11 +6,11 @@ Game::Game() {
 
 Game::~Game() {}
 
-void Game::draw_board(SDL_Renderer* renderer, int cellsize) {
+void Game::draw_board(SDL_Renderer* renderer, int cellsize) const {
     board.draw(renderer, cellsize);
 }
 
-void Game::draw_pieces(SDL_Renderer* renderer, int cellsize){
+void Game::draw_pieces(SDL_Renderer* renderer, int cellsize) const {
     board.draw_pieces(renderer, cellsize);
 }
 
@@ -26,7 +26,7 @@ void draw_filled_circle(SDL_Renderer *renderer, int centerX, int centerY, int ra
 }
 
 
-void Game::draw_selected_piece(SDL_Renderer* renderer, int cellsize){
+void Game::draw_selected_piece(SDL_Renderer* renderer, int cellsize) const {
     if (selectedPiece != nullptr) {
         Position cell = selectedPiece->getPosition();
 
@@ -36,7 +36,7 @@ void Game::draw_selected_piece(SDL_Renderer* renderer, int cellsize){
     }
 }
 
-void Game::draw_moves(SDL_Renderer* renderer, int cellsize) {
+void Game::draw_moves(SDL_Renderer* renderer, int cellsize) const {
     for (Position move : moves) {
         SDL_Rect rect = {move.first * cellsize, move.second * cellsize, cellsize, cellsize};
         SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
@@ -55,6 +55,10 @@ void Game::switchPlayer() {
         activePlayer = Color::White;
         break;
     }
+}
+
+void Game::switchPlayer(Color color) {
+    activePlayer = color;
 }
 
 bool Game::move(Position pos) {
@@ -79,6 +83,17 @@ bool Game::move(Position pos) {
 void Game::get_possible_moves(Position pos) {
     remove_moves();
     selectedPiece = board.get_piece(pos);
-    if (selectedPiece && selectedPiece->getColor() == activePlayer) moves = board.get_possible_moves(selectedPiece);
-    else remove_selected_piece();
-};
+    if (selectedPiece && selectedPiece->getColor() == activePlayer) {
+        moves = board.get_possible_moves(selectedPiece);
+    } else remove_selected_piece();
+}
+
+Color Game::is_over() {
+    std::vector<Piece *> kings;
+    board.get_pieces_by_type(kings, PieceType::King);
+    if (kings.size() == 1) {
+        switchPlayer(Color::None);
+        return kings.front()->getColor();
+    }
+    return Color::None;
+}

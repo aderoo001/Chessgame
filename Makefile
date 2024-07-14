@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -Wall -g `sdl2-config --cflags`
-LDFLAGS = `sdl2-config --libs` -lSDL2_image
+LDFLAGS = `sdl2-config --libs` -lSDL2_image -lSDL2_ttf
 INCLUDES = -Igame -IgameObject -IgameEngine
 TARGET = Chessgame
 SOURCES = main.cpp gameEngine/Board.cpp gameEngine/Game.cpp gameObject/Piece.cpp gameObject/Pawn.cpp gameObject/Knight.cpp gameObject/Queen.cpp gameObject/King.cpp gameObject/Bishop.cpp gameObject/Rook.cpp

@@ -1,6 +1,6 @@
 #include "Queen.h"
 
-Queen::Queen(Color color, Position position) : Piece(color, position) {}
+Queen::Queen(Color color, Position position) : Piece(color, position, PieceType::Queen) {}
 
 Queen::~Queen() {}
 

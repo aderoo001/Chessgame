@@ -5,7 +5,6 @@
 
 class King : public Piece{
     private:
-        PieceType type = PieceType::King;
 
     public:
         King(Color color, Position position);

@@ -5,7 +5,6 @@
 
 class Queen : public Piece{
     private:
-        PieceType type = PieceType::Bishop;
 
     public:
         Queen(Color color, Position position);

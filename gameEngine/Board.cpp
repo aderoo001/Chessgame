@@ -104,11 +104,19 @@ void Board::draw_pieces(SDL_Renderer* renderer, int cellsize) const {
 }
 
 
-Piece* Board::get_piece(Position pos) {
+Piece* Board::get_piece(Position pos) const {
     for (Piece* piece: pieces) {
         if (piece->isInPosition(pos)) return piece;
     } 
     return nullptr;
+}
+
+void Board::get_pieces_by_type(std::vector<Piece *> &list, PieceType type) const {
+    for (Piece* piece: pieces) {
+        if (piece->isPieceType(type)) {
+            list.push_back(piece);
+        }
+    }
 }
 
 void Board::add_piece(Piece* piece) {
@@ -126,7 +134,7 @@ void Board::delete_piece(Piece* piece) {
     }
 }
 
-std::vector<Position> Board::get_possible_moves(Piece* piece) {
+std::vector<Position> Board::get_possible_moves(Piece* piece) const {
     std::vector<Position> ret;
     ret = piece->get_possible_moves(pieces);
     return ret;

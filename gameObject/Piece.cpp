@@ -1,6 +1,7 @@
 #include "Piece.h"
 
-Piece::Piece(Color color, Position position): color{color}, position{position} {}
+Piece::Piece(Color color, Position position): color{color}, position{position}, type{PieceType::Undefined} {}
+Piece::Piece(Color color, Position position, PieceType type): color{color}, position{position}, type{type} {}
 
 Piece::~Piece() {}
 

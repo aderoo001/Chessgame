@@ -1,7 +1,7 @@
 #include "Pawn.h"
 
 
-Pawn::Pawn(Color color, Position pos) : Piece(color, pos) {}
+Pawn::Pawn(Color color, Position pos) : Piece(color, pos, PieceType::Pawn) {}
 
 Pawn::~Pawn() {}
 
@@ -28,12 +28,12 @@ void Pawn::get_moves_in_direction(std::vector<Position>& moves, const std::vecto
         if (pos.first >= 0 && pos.first < 8 && pos.second >= 0 && pos.second < 8) {
             for (const Piece* piece : pieces) {
                 if (piece->isInPosition(pos)) {
-                    break;
+                    return;
                 }
             }
             moves.push_back(pos);
 
-            if (nb_moves != 0) break;
+            if (nb_moves != 0) return;
 
             pos.first += dx;
             pos.second += dy;
